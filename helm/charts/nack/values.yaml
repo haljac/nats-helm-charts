@@ -53,7 +53,7 @@ jetstream:
   additionalArgs: []
 
 # restrict the controller to only watch resources in it's current namespace
-namespaced: false
+namespaced: true
 
 nameOverride: ""
 namespaceOverride: ""

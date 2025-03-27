@@ -6,13 +6,13 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: {{ template "jsc.serviceAccountName" . }}
-  namespace: {{ include "jsc.namespace" . }}
+  {{- include "jsc.metadataNamespace" . | nindent 2 }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: {{ $kind }}
 metadata:
   name: {{ template "jsc.serviceAccountName" . }}-{{ $kindSuffix }}
-  namespace: {{ include "jsc.namespace" . }}
+  {{- include "jsc.metadataNamespace" . | nindent 2 }}
 {{ tpl .Values.rbacRules . }}
 
 ---
@@ -20,11 +20,11 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: {{ printf "%sBinding" $kind}}
 metadata:
   name: {{ template "jsc.serviceAccountName" . }}-{{ $kindSuffix }}-binding
-  namespace: {{ include "jsc.namespace" . }}
+  {{- include "jsc.metadataNamespace" . | nindent 2 }}
 subjects:
 - kind: ServiceAccount
   name: {{ template "jsc.serviceAccountName" . }}
-  namespace: {{ include "jsc.namespace" . }}
+  namespace: {{ .Release.Namespace }}
 roleRef:
   kind: {{ $kind }}
   name: {{ template "jsc.serviceAccountName" . }}-{{ $kindSuffix }}

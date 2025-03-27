@@ -13,6 +13,15 @@ Define the namespace where the content of the chart will be deployed.
 {{- end -}}
 
 {{/*
+Print the namespace for the metadata section, only if namespaceOverride is set
+*/}}
+{{- define "jsc.metadataNamespace" -}}
+{{- with .Values.namespaceOverride }}
+namespace: {{ . | quote }}
+{{- end }}
+{{- end -}}
+
+{{/*
 Define the serviceaccountname
 */}}
 {{- define "jsc.serviceAccountName" -}}

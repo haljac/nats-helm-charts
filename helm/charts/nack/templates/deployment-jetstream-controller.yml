@@ -4,7 +4,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ template "jsc.name" . }}
-  namespace: {{ include "jsc.namespace" . }}
+  {{- include "jsc.metadataNamespace" . | nindent 2 }}
   labels:
     app: {{ template "jsc.name" . }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
@@ -102,7 +102,7 @@ spec:
           - --nkey=/etc/jsc-nkey/{{ .secret.key }}
           {{- end }}
           {{- if .Values.namespaced }}
-          - --namespace={{ template "jsc.namespace" . }}
+          - --namespace={{ .Release.Namespace }}
           {{- end }}
           {{- if and .Values.jetstream.tls.enabled .Values.jetstream.tls.settings.client_cert }}
           - --tlscert={{ .Values.jetstream.tls.settings.client_cert }}
